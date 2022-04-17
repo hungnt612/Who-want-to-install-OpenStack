@@ -1,6 +1,6 @@
 # OpenStack install with docker
 
-# Service list:
+# Service:
 
 | Service | Code Name | Description |
 | --- | --- | --- |
