@@ -1,0 +1,36 @@
+version: "3"
+services:
+  memcached:
+    image: memcached_img
+    container_name: memcached
+    env_file:
+      - ".env"
+    environment:
+      - IP_ADDRESS=${IP_ADDRESS}
+    ports:
+        - '11211:11211'
+#
+  rabbitmq3:
+      container_name: rabbitmq
+      image: rabbitmq:3.8-management-alpine
+      env_file:
+      - ".env"
+      environment:
+          - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+          - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+      ports:
+          # AMQP protocol port
+          - '5672:5672'
+          # HTTP management UI
+          - '15672:15672'
+#
+  keystone:
+    image: test-keystone2
+    container_name: keystone
+    env_file:
+      - ".env"
+    environment:
+      - IP_ADDRESS=${IP_ADDRESS}
+    ports:
+        - '5000:5000'
+      
