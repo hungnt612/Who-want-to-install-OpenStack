@@ -1,8 +1,24 @@
 version: "3"
 services:
+
+  ubuntu-base:
+    image: hungnt612/ubuntu-focal:TZ-HCM
+    container_name: ubuntu-base
+    networks:
+      - brigde_network
+    # restart: always
+    tty: true
+    env_file:
+      - ".env"
+    environment:
+      - IP_ADDRESS=${IP_ADDRESS}
+#
   memcached:
-    image: memcached_img
+    image: hungnt612/op:memcached
     container_name: memcached
+    networks:
+      - brigde_network
+    # restart: always
     env_file:
       - ".env"
     environment:
@@ -13,6 +29,9 @@ services:
   rabbitmq3:
       container_name: rabbitmq
       image: rabbitmq:3.8-management-alpine
+      networks:
+        - brigde_network
+      # restart: always
       env_file:
       - ".env"
       environment:
@@ -24,13 +43,56 @@ services:
           # HTTP management UI
           - '15672:15672'
 #
+  mariadb:
+    image: hungnt612/op:db
+    container_name: mariadb
+    networks:
+      - brigde_network
+    # restart: always
+    env_file:
+      - ".env"
+    environment:
+      # - MARIADB_DATABASE=${MYSQL_DATABASE}
+      - MARIADB_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - SERVICEPASSWD=${SERVICEPASSWD}
+    volumes:
+      - "mariadb_data:/var/lib/mysql"
+    ports:
+      - "3306:3306"
+#
+  phpmyadmin:
+    image: "docker.io/bitnami/phpmyadmin:5-debian-10"
+    container_name: phpmyadmin
+    networks:
+      - brigde_network
+    # restart: always
+    volumes:
+      - ./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini:rw,delegated
+    ports:
+      - "8080:8080"
+      - "4433:8443"
+    depends_on:
+      - mariadb
+#
   keystone:
-    image: test-keystone2
+    image: hungnt612/op:keystone3
     container_name: keystone
+    networks:
+      - brigde_network
+    # restart: always
     env_file:
       - ".env"
     environment:
       - IP_ADDRESS=${IP_ADDRESS}
     ports:
         - '5000:5000'
+    depends_on:
+      - mariadb
       
+volumes: 
+  mariadb_data:
+
+networks:
+  brigde_network:
+    external: false
+    name: brigde_network

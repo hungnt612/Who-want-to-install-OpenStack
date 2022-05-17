@@ -4,8 +4,8 @@
 ############################################################
 
 # Set the base image to use to Ubuntu
-FROM ubuntu:20.04
-  
+FROM hungnt612/ubuntu-focal:TZ-HCM
+
 # Update the default application repository sources list
 RUN apt-get update
 
