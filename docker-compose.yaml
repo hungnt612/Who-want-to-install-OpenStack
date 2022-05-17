@@ -2,7 +2,7 @@ version: "3"
 services:
 
   ubuntu-base:
-    image: hungnt612/ubuntu-focal:TZ-HCM
+    image: hungnt612/ubuntu-focal:TZ-HCM-keystone
     container_name: ubuntu-base
     networks:
       - brigde_network
@@ -75,7 +75,7 @@ services:
       - mariadb
 #
   keystone:
-    image: hungnt612/op:keystone3
+    image: hungnt612/op:keystone
     container_name: keystone
     networks:
       - brigde_network
@@ -88,9 +88,47 @@ services:
         - '5000:5000'
     depends_on:
       - mariadb
-      
+#
+  glance:
+    image: hungnt612/op:glance
+    container_name: glance
+    networks:
+      - brigde_network
+    # restart: always
+    env_file:
+      - ".env"
+    environment:
+      - IP_ADDRESS=${IP_ADDRESS}
+    volumes:
+      - "glance_data:/var/lib/glance/images"
+    ports:
+        - '9292:9292'
+    depends_on:
+      - mariadb
+#
+  nova:
+    image: hungnt612/op:nova
+    container_name: nova
+    networks:
+      - brigde_network
+    # restart: always
+    env_file:
+      - ".env"
+    environment:
+      - IP_ADDRESS=${IP_ADDRESS}
+    ports:
+        - '6080:6080'
+        - '8774:8774'
+        - '8778:8778'
+    depends_on:
+      - mariadb
+      - keystone
+      - glance
+
+
 volumes: 
   mariadb_data:
+  glance_data:
 
 networks:
   brigde_network:

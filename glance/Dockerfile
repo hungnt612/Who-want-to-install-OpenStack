@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM hungnt612/ubuntu-focal:TZ-HCM
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -17,6 +17,6 @@ COPY glance-api.conf /etc/glance/glance-api.conf
 
 COPY init.sh /usr/bin/init.sh
 RUN chmod +x /usr/bin/init.sh
-# EXPOSE 5000
+EXPOSE 9292
 
 CMD ["/usr/bin/init.sh"]
