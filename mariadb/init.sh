@@ -10,7 +10,7 @@ ROOTPASSWD=${MYSQL_ROOT_PASSWORD}
 SERVICEPASSWD= ${SERVICEPASSWD}
 
 echo "Root password is ${MYSQL_ROOT_PASSWORD}"
-echo "SERVICEPASSWD is  '${SERVICEPASSWD}'"
+echo "SERVICEPASSWD is  ${SERVICEPASSWD}"
 
 # check status of mariadb service
 service mysql start
@@ -85,7 +85,7 @@ if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
     mysql -uroot -p${ROOTPASSWD} -e "grant all privileges on placement.* to placement@'localhost' identified by  '${SERVICEPASSWD}';"
     mysql -uroot -p${ROOTPASSWD} -e "grant all privileges on placement.* to placement@'%' identified by  '${SERVICEPASSWD}'; "
     mysql -uroot -p${ROOTPASSWD} -e "flush privileges;"
-    echo " Add a User and Database on MariaDB for Neutron."
+    echo "Add a User and Database on MariaDB for Neutron."
     mysql -uroot -p${ROOTPASSWD} -e "create database neutron_ml2; "
     mysql -uroot -p${ROOTPASSWD} -e "CREATE USER 'neutron'@'%' IDENTIFIED BY '$SERVICEPASSWD' "
     mysql -uroot -p${ROOTPASSWD} -e "CREATE USER 'neutron'@'localhost' IDENTIFIED BY '$SERVICEPASSWD' "
