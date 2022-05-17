@@ -1,0 +1,35 @@
+
+   
+version: "3"
+services:
+  mariadb:
+    image: docker.io/bitnami/mariadb:10.5
+    container_name: mariadb
+    env_file:
+      - ".env"
+    environment:
+      - MARIADB_DATABASE=${MYSQL_DATABASE}
+      - MARIADB_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MARIADB_USER=${MYSQL_USER}
+      - MARIADB_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - "./mariadb_data:/bitnami/mariadb"
+    ports:
+      - "3366:3306"
+    healthcheck:
+      test: ["CMD", "/opt/bitnami/scripts/mariadb/healthcheck.sh"]
+      interval: 15s
+      timeout: 5s
+      retries: 6
+  phpmyadmin:
+    image: "docker.io/bitnami/phpmyadmin:5-debian-10"
+    container_name: phpmyadmin
+    volumes:
+      - ./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini:rw,delegated
+    ports:
+      - "8080:8080"
+      - "4433:8443"
+    depends_on:
+      - mariadb
+volumes: 
+  mariadb_data:

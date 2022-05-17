@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM hungnt612/ubuntu-focal:TZ-HCM
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -6,7 +6,7 @@ RUN apt-get update \
     && apt -y install software-properties-common \
     && add-apt-repository -y cloud-archive:wallaby \
     && apt update && apt -y upgrade \
-    && apt -y install keystone python3-openstackclient apache2 libapache2-mod-wsgi-py3 python3-oauth2client python3-pymysql git python3-pip
+    && apt -y install keystone python3-openstackclient apache2 libpq-dev libapache2-mod-wsgi-py3 python3-oauth2client python3-pymysql git python3-pip
 
 RUN rm -rf /etc/keystone/keystone.conf && rm -rf /etc/apache2/apache2.conf
 COPY keystone.conf /etc/keystone/keystone.conf
