@@ -148,6 +148,25 @@ services:
       - keystone
       - glance
       - placement
+      - neutron
+#
+  neutron:
+    image: hungnt612/op:neutron
+    container_name: neutron
+    networks:
+      - brigde_network
+    # restart: always
+    env_file:
+      - ".env"
+    environment:
+      - IP_ADDRESS=${IP_ADDRESS}
+    ports:
+        - '9696:9696'
+    depends_on:
+      - mariadb
+      - keystone
+      - glance
+      - placement
 #
   horizon:
     image: hungnt612/op:horizon

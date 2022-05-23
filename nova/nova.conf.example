@@ -6,6 +6,10 @@ state_path = /var/lib/nova
 log_dir = /var/log/nova
 # RabbitMQ connection info
 transport_url = rabbit://openstack:password@rabbitmq
+use_neutron = True
+vif_plugging_is_fatal = True
+vif_plugging_timeout = 300
+
 
 [api]
 auth_strategy = keystone
@@ -55,6 +59,17 @@ server_proxyclient_address = $my_ip
 server_listen = 0.0.0.0
 novncproxy_base_url = http://IP_ADDRESS:6080/vnc_auto.html
 
+[neutron]
+auth_url = http://keystone:5000
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+region_name = RegionOne
+project_name = service
+username = neutron
+password = servicepassword
+service_metadata_proxy = True
+metadata_proxy_shared_secret = metadata_secret
 
 # [DEFAULT]
 # log_dir = /var/log/nova

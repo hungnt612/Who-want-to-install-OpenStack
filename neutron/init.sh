@@ -1,32 +1,27 @@
 #!/bin/bash
 
-# KEYSTONE_HOST="${IP_ADDRESS:-localhost}"
-# echo "hihi"
-# echo $KEYSTONE_HOST
+INTERFACE_NAME='eth0'
 
-# chmod 640 /etc/nova/nova.conf
-# chgrp nova /etc/nova/nova.conf
-
-# chmod 640 /etc/placement/placement.conf
-# chgrp nova /etc/placement/placement.conf
-
-
-
-/usr/bin/nova-api  &&
-/usr/bin/nova-scheduler &
-/usr/bin/nova-conductor &
-/usr/bin/nova-novncproxy &
-/usr/bin/nova-api &
-/usr/bin/nova-cert &
-/usr/bin/nova-compute &
-/usr/bin/nova-consoleauth &
-/usr/bin/nova-network &
-/usr/bin/nova-manage
-
-
-tail -f /var/log/nova/*
-
-# service nova-api restart
-# service nova-scheduler restart
-# service nova-conductor restart
-# service nova-novncproxy restart
+echo "sed -i 's/IP_ADDRESS/$IP_HOST/g' /etc/neutron/metadata_agent.ini" &&
+sed 's+IP_ADDRESS+'"$IP_HOST+" /etc/neutron/metadata_agent.ini.example > /etc/neutron/metadata_agent.ini &&
+chmod 640 /etc/neutron/metadata_agent.ini && chgrp neutron /etc/neutron/metadata_agent.ini &&
+echo "sed -i 's/IP_ADDRESS/$IP_HOST/g' /etc/neutron/plugins/ml2/linuxbridge_agent.ini" &&
+sed 's+IP_ADDRESS+'"$IP_HOST+" /etc/neutron/plugins/ml2/linuxbridge_agent.ini.example > /etc/neutron/plugins/ml2/linuxbridge_agent.ini.2 &&
+# chmod 640 /etc/neutron/plugins/ml2/linuxbridge_agent.ini && chgrp neutron /etc/neutron/plugins/ml2/linuxbridge_agent.ini &&
+echo "sed -i 's/INTERFACE_NAME/$INTERFACE_NAME/g' /etc/neutron/plugins/ml2/linuxbridge_agent.ini" &&
+sed 's+IP_ADDRESS+'"$INTERFACE_NAME+" /etc/neutron/plugins/ml2/linuxbridge_agent.ini.2 > /etc/neutron/plugins/ml2/linuxbridge_agent.ini &&
+chmod 640 /etc/neutron/plugins/ml2/linuxbridge_agent.ini && chgrp neutron /etc/neutron/plugins/ml2/linuxbridge_agent.ini.2 &&
+echo "ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini" &&
+ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini &&
+echo 'eutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugin.ini upgrade head' &&
+su -s /bin/bash neutron -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugin.ini upgrade head" &&
+echo 'start service' && echo 'hehe' > /var/log/neutron/test.txt &&
+# for service in server l3-agent dhcp-agent metadata-agent linuxbridge-agent; do
+# service neutron-$service restart 
+# done
+service neutron-server restart &&
+service neutron-l3-agent restart &&
+service neutron-dhcp-agent restart &&
+service neutron-metadata-agent restart &&
+service neutron-linuxbridge-agent restart &&
+tail -f /var/log/neutron/*
