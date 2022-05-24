@@ -95,7 +95,7 @@ services:
     image: hungnt612/op:glance
     container_name: glance
     networks:
-      - share_network
+      - brigde_network
     # restart: always
     env_file:
       - ".env"
@@ -115,7 +115,7 @@ services:
     image: hungnt612/op:placement
     container_name: placement
     networks:
-      - share_network
+      - brigde_network
     # restart: always
     env_file:
       - ".env"
@@ -130,7 +130,7 @@ services:
     image: hungnt612/op:nova
     container_name: nova
     networks:
-      - share_network
+      - brigde_network
     # restart: always
     env_file:
       - ".env"
@@ -149,7 +149,7 @@ services:
     image: hungnt612/op:neutron
     container_name: neutron
     networks:
-      - share_network
+      - brigde_network
     # restart: always
     env_file:
       - ".env"
@@ -165,7 +165,7 @@ services:
     image: hungnt612/op:horizon
     container_name: horizon
     networks:
-      - share_network
+      - brigde_network
     # restart: always
     env_file:
       - ".env"
@@ -183,7 +183,7 @@ services:
     image: hungnt612/op:cinder
     container_name: cinder
     networks:
-      - share_network
+      - brigde_network
     # restart: always
     env_file:
       - ".env"
@@ -205,7 +205,7 @@ networks:
   brigde_network:
     external: false
     name: brigde_network
-  share_network:
-    # external: false
-    # name: host_network
-    driver: host
+  # brigde_network:
+  #   # external: false
+  #   # name: host_network
+  #   driver: host

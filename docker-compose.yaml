@@ -4,11 +4,11 @@ services:
   ubuntu-base:
     image: hungnt612/ubuntu-focal:TZ-HCM-op-client
     container_name: ubuntu-base
-    # networks:
-    #   - share_network
+    networks:
+      - brigde_network
     # # restart: always
     # # network_mode: host
-    network_mode: "host"
+#    network_mode: "host"
     tty: true
     env_file:
       - ".env"
@@ -18,10 +18,10 @@ services:
   memcached:
     image: hungnt612/op:memcached
     container_name: memcached
-    # networks:
-    #   - share_network
+    networks:
+      - brigde_network
     # # restart: always
-    network_mode: "host"
+#    network_mode: "host"
     env_file:
       - ".env"
     environment:
@@ -32,10 +32,10 @@ services:
   rabbitmq:
       container_name: rabbitmq
       image: rabbitmq:3.8-management-alpine
-      # networks:
-      #   - share_network
+      networks:
+        - brigde_network
       # # restart: always
-      network_mode: "host"
+  #    network_mode: "host"
       env_file:
       - ".env"
       environment:
@@ -50,10 +50,10 @@ services:
   mariadb:
     image: hungnt612/op:db
     container_name: mariadb
-    # networks:
-    #   - share_network
+    networks:
+      - brigde_network
     # # restart: always
-    network_mode: "host"
+#    network_mode: "host"
     env_file:
       - ".env"
     environment:
@@ -68,10 +68,10 @@ services:
   phpmyadmin:
     image: "docker.io/bitnami/phpmyadmin:5-debian-10"
     container_name: phpmyadmin
-    # networks:
-    #   - share_network
+    networks:
+      - brigde_network
     # # restart: always
-    network_mode: "host"
+#    network_mode: "host"
     volumes:
       - ./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini:rw,delegated
     ports:
@@ -83,10 +83,10 @@ services:
   keystone:
     image: hungnt612/op:keystone
     container_name: keystone
-    # networks:
-    #   - share_network
+    networks:
+      - brigde_network
     # # restart: always
-    network_mode: "host"
+#    network_mode: "host"
     env_file:
       - ".env"
     environment:
@@ -205,7 +205,7 @@ networks:
   brigde_network:
     external: false
     name: brigde_network
-  # share_network:
+  # brigde_network:
   #   # external: false
   #   # name: host_network
   #   driver: host
