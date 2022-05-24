@@ -4,8 +4,8 @@ services:
   ubuntu-base:
     image: hungnt612/ubuntu-focal:TZ-HCM-op-client
     container_name: ubuntu-base
-    # networks:
-    #   - share_network
+    networks:
+      - share_network
     # restart: always
     # network_mode: host
     tty: true
