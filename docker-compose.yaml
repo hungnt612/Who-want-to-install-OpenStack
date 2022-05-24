@@ -4,9 +4,10 @@ services:
   ubuntu-base:
     image: hungnt612/ubuntu-focal:TZ-HCM-op-client
     container_name: ubuntu-base
-    networks:
-      - brigde_network
+    # networks:
+    #   - share_network
     # restart: always
+    # network_mode: host
     tty: true
     env_file:
       - ".env"
@@ -17,7 +18,7 @@ services:
     image: hungnt612/op:memcached
     container_name: memcached
     networks:
-      - brigde_network
+      - share_network
     # restart: always
     env_file:
       - ".env"
@@ -30,7 +31,7 @@ services:
       container_name: rabbitmq
       image: rabbitmq:3.8-management-alpine
       networks:
-        - brigde_network
+        - share_network
       # restart: always
       env_file:
       - ".env"
@@ -47,7 +48,7 @@ services:
     image: hungnt612/op:db
     container_name: mariadb
     networks:
-      - brigde_network
+      - share_network
     # restart: always
     env_file:
       - ".env"
@@ -64,7 +65,7 @@ services:
     image: "docker.io/bitnami/phpmyadmin:5-debian-10"
     container_name: phpmyadmin
     networks:
-      - brigde_network
+      - share_network
     # restart: always
     volumes:
       - ./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini:rw,delegated
@@ -78,7 +79,7 @@ services:
     image: hungnt612/op:keystone
     container_name: keystone
     networks:
-      - brigde_network
+      - share_network
     # restart: always
     env_file:
       - ".env"
@@ -198,3 +199,7 @@ networks:
   brigde_network:
     external: false
     name: brigde_network
+  share_network:
+    # external: false
+    # name: host_network
+    driver: host
