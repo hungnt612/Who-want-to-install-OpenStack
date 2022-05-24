@@ -2,7 +2,7 @@
 IP_HOST="${IP_ADDRESS:-localhost}"
 echo "hihi"
 echo $IP_HOST
-INTERFACE_NAME='eth0'
+INTERFACE_NAME='br-ex'
 
 echo "sed -i 's/IP_ADDRESS/$IP_HOST/g' /etc/neutron/metadata_agent.ini" &&
 sed 's+IP_ADDRESS+'"$IP_HOST+" /etc/neutron/metadata_agent.ini.example > /etc/neutron/metadata_agent.ini &&
