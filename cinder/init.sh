@@ -11,7 +11,7 @@ chmod 640 /etc/cinder/cinder.conf &&
 chgrp cinder /etc/cinder/cinder.conf &&
 echo "cinder-manage db sync" &&
 su -s /bin/bash cinder -c "cinder-manage db sync" &&
-service cinder-api start &&
+# service cinder-api start &&
 service cinder-scheduler start &&
 echo "cinder started" > /var/log/cinder/test.txt &&
 tail -f /var/log/cinder/*

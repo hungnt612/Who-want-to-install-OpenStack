@@ -91,108 +91,108 @@ services:
       - rabbitmq
       - memcached
 #
-  glance:
-    image: hungnt612/op:glance
-    container_name: glance
-    networks:
-      - brigde_network
-    # restart: always
-    env_file:
-      - ".env"
-    environment:
-      - IP_ADDRESS=${IP_ADDRESS}
-    volumes:
-      - "glance_data:/var/lib/glance/images"
-    ports:
-        - '9292:9292'
-    depends_on:
-      - mariadb
-      - rabbitmq
-      - memcached
-      - keystone
-#
-  placement:
-    image: hungnt612/op:placement
-    container_name: placement
-    networks:
-      - brigde_network
-    # restart: always
-    env_file:
-      - ".env"
-    environment:
-      - IP_ADDRESS=${IP_ADDRESS}
-    ports:
-        - '8778:8778'
-    depends_on:
-      - mariadb
-      - rabbitmq
-      - memcached
+#   glance:
+#     image: hungnt612/op:glance
+#     container_name: glance
+#     networks:
+#       - brigde_network
+#     # restart: always
+#     env_file:
+#       - ".env"
+#     environment:
+#       - IP_ADDRESS=${IP_ADDRESS}
+#     volumes:
+#       - "glance_data:/var/lib/glance/images"
+#     ports:
+#         - '9292:9292'
+#     depends_on:
+#       - mariadb
+#       - rabbitmq
+#       - memcached
+#       - keystone
+# #
+#   placement:
+#     image: hungnt612/op:placement
+#     container_name: placement
+#     networks:
+#       - brigde_network
+#     # restart: always
+#     env_file:
+#       - ".env"
+#     environment:
+#       - IP_ADDRESS=${IP_ADDRESS}
+#     ports:
+#         - '8778:8778'
+#     depends_on:
+#       - mariadb
+#       - rabbitmq
+#       - memcached
 
-#
-  nova:
-    image: hungnt612/op:nova
-    container_name: nova
-    networks:
-      - brigde_network
-    # restart: always
-    env_file:
-      - ".env"
-    environment:
-      - IP_ADDRESS=${IP_ADDRESS}
-    ports:
-        - '6080:6080'
-        - '8774:8774'
-        - '8775:8775'
-    depends_on:
-      - mariadb
-      - keystone
-      - glance
-      - placement
-      - neutron
-#
-  neutron:
-    image: hungnt612/op:neutron
-    container_name: neutron
-    networks:
-      - brigde_network
-    # restart: always
-    env_file:
-      - ".env"
-    environment:
-      - IP_ADDRESS=${IP_ADDRESS}
-    ports:
-        - '9696:9696'
-    depends_on:
-      - mariadb
-      - keystone
-      - glance
-      - placement
-#
-  horizon:
-    image: hungnt612/op:horizon
-    container_name: horizon
-    networks:
-      - brigde_network
-    # restart: always
-    env_file:
-      - ".env"
-    environment:
-      - IP_ADDRESS=${IP_ADDRESS}
-    ports:
-        - '80:80'
-    depends_on:
-      - mariadb
-      - rabbitmq
-      - memcached
-      - nova
-      - glance
-      - keystone
-      - placement
+# #
+#   nova:
+#     image: hungnt612/op:nova
+#     container_name: nova
+#     networks:
+#       - brigde_network
+#     # restart: always
+#     env_file:
+#       - ".env"
+#     environment:
+#       - IP_ADDRESS=${IP_ADDRESS}
+#     ports:
+#         - '6080:6080'
+#         - '8774:8774'
+#         - '8775:8775'
+#     depends_on:
+#       - mariadb
+#       - keystone
+#       - glance
+#       - placement
+#       - neutron
+# #
+#   neutron:
+#     image: hungnt612/op:neutron
+#     container_name: neutron
+#     networks:
+#       - brigde_network
+#     # restart: always
+#     env_file:
+#       - ".env"
+#     environment:
+#       - IP_ADDRESS=${IP_ADDRESS}
+#     ports:
+#         - '9696:9696'
+#     depends_on:
+#       - mariadb
+#       - keystone
+#       - glance
+#       - placement
+# #
+#   horizon:
+#     image: hungnt612/op:horizon
+#     container_name: horizon
+#     networks:
+#       - brigde_network
+#     # restart: always
+#     env_file:
+#       - ".env"
+#     environment:
+#       - IP_ADDRESS=${IP_ADDRESS}
+#     ports:
+#         - '80:80'
+#     depends_on:
+#       - mariadb
+#       - rabbitmq
+#       - memcached
+#       - nova
+#       - glance
+#       - keystone
+#       - placement
 
 
 volumes: 
   mariadb_data:
-  glance_data:
+  # glance_data:
 
 networks:
   brigde_network:

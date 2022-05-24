@@ -6,7 +6,7 @@ RUN apt-get update \
     && apt -y install software-properties-common \
     && add-apt-repository -y cloud-archive:wallaby \
     && apt update && apt -y upgrade \
-    && apt -y install cinder-api cinder-scheduler python3-cinderclient libpq-dev python3-oauth2client python3-pymysql git python3-pip
+    && apt -y install cinder-api cinder-scheduler cinder-volume python3-mysqldb python3-rtslib-fb python3-cinderclient libpq-dev python3-oauth2client python3-pymysql git python3-pip
 
 # RUN rm -rf /etc/keystone/keystone.conf && rm -rf /etc/apache2/apache2.conf
 # COPY keystone.conf /etc/keystone/keystone.conf
@@ -21,7 +21,7 @@ COPY cinder.conf.example /etc/cinder/cinder.conf.example
 
 COPY init.sh /usr/bin/init.sh
 RUN chmod +x /usr/bin/init.sh
-EXPOSE 5000
+EXPOSE 8776
 
 # CMD ["/init.sh", "/usr/sbin/apachectl", "-DFOREGROUND"]
 CMD ["/usr/bin/init.sh"]

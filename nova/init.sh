@@ -33,6 +33,7 @@ service nova-api restart &&
 service nova-scheduler restart &&
 service nova-conductor restart &&
 service nova-novncproxy restart &&
+service nova-compute restart &&
 tail -f /var/log/nova/*
 
 # service nova-api restart
